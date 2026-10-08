@@ -1,0 +1,62 @@
+{
+  "name": "Automated Invoice Ingestion Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "process-invoice",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position":,
+      "id": "webhook-trigger",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "command": "python \"D:\\work\\AutoBiz_Agent - AI_Powered Business Document  Invoice Processor\\processor.py\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position":,
+      "id": "run-script",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "fileSignal": "D:\\work\\AutoBiz_Agent - AI_Powered Business Document  Invoice Processor\\invoice_output.json"
+      },
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position":,
+      "id": "read-json",
+      "name": "Read File(s) From Disk"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Read File(s) From Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
